@@ -1,13 +1,7 @@
 # git-statistics
 
-A Clojure library designed to ... well, that part is up to you.
+Get statistics over time from your git-repository
+ - is the project growing, eg number of files is increasing
+ - do you refactor, eg the number of lines per file/metod stays small
 
-## Usage
 
-FIXME
-
-## License
-
-Copyright © 2013 FIXME
-
-Distributed under the Eclipse Public License, the same as Clojure.
