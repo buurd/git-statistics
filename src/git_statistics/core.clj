@@ -1,12 +1,6 @@
 (ns git-statistics.core
   (:require clojure.contrib.java-utils))
 
-;; a list of functions to run for each version
-(def version-jobs [(fn [x] (+ 1 2)) (fn [x] (+ 2 3))])
-
-;; a list of funtions to aggretate the results from version-jobs
-(def aggregate-jobs [(fn [x] (+ 1 2)) (fn [x] (+ 2 3))])
-
 ;; the url to the project from where to checkout the repository
 (def git-clone-url "https://github.com/buurd/git-statistics.git")
 
@@ -34,8 +28,8 @@
     (println (funct revision))))
 
 (defn work-on-all-revisions [] 
-    (doseq  [revision list-of-revisions]
-        (work-on-revision revision)))
+  (doseq  [revision list-of-revisions]
+    (work-on-revision revision)))
 
 (defn begin
   "The starting point"
@@ -45,5 +39,3 @@
       (work-on-all-revisions)
     ;; aggregate data
     ))
-
-(begin)
