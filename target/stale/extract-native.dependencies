@@ -1,1 +1,0 @@
-([:dependencies ([org.clojure/clojure "1.5.1"] [clj-jgit/clj-jgit "0.5.3"])])
