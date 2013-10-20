@@ -1,5 +1,5 @@
 (ns git-statistics.core
-  (:require clojure.contrib.java-utils))
+  )
 
 ;; the url to the project from where to checkout the repository
 (def git-clone-url "https://github.com/buurd/git-statistics.git")
@@ -24,18 +24,23 @@
 
 (defn work-on-revision [revision]
   "run all functions that should be run on a revision"
-  (doseq [funct version-jobs]
-    (println (funct revision))))
+  (doseq [job version-jobs] 
+    (println (str "working on " (.toString job)))
+    (job revision)))
 
 (defn work-on-all-revisions [] 
+  "for each revision in the git repository run the version-jobs"
   (doseq  [revision list-of-revisions]
-    (work-on-revision revision)))
-
+    (switch-revision revision)))
+    ;;(work-on-revision revision)))
+    
 (defn begin
   "The starting point"
   []
-  (
       (delete-file-recursively git-checkout-directory)
+      (init-repoitory)
       (work-on-all-revisions)
     ;; aggregate data
-    ))
+    )
+
+(begin)
