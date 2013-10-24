@@ -2,7 +2,7 @@
   (:require 
     git-statistics.config
     git-statistics.git 
-    git-statistics.version))
+    git-statistics.version-jobs))
 
 (defn child-file-path [file child]
   "concatenates the file path with the name of the child"
@@ -23,25 +23,21 @@
   "run all functions that should be run on a revision"
   (doseq [job git-statistics.version-jobs/version-jobs] 
     (let [job-data (job revision)]
-      (println "do the job " (job revision))
-      (println "expect the job " job-data)
-      (write-data-to-revision-folder revision job-data))))
+      (git-statistics.git/write-data-to-revision-folder revision job-data))))
 
 (defn work-on-all-revisions [] 
   "for each revision in the git repository run the version-jobs"
-  (create-revisions-dir)
-  (doseq  [revision list-of-revisions]
-    (create-revision-dir revision)
-    (switch-revision revision)
+  (git-statistics.git/create-revisions-dir)
+  (doseq  [revision git-statistics.git/get-list-of-revisions]
+    (git-statistics.git/create-revision-dir revision)
+    (git-statistics.git/switch-revision revision)
     (work-on-revision revision)))
     
 (defn begin
   "The starting point"
   []
-      (delete-file-recursively git-checkout-directory)
-      (init-repoitory)
+      (delete-file-recursively git-statistics.config/git-checkout-directory)
+      (git-statistics.git/get-repository)
       (work-on-all-revisions)
     ;; aggregate data
     )
-
-(begin)

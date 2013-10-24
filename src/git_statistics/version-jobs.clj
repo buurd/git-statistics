@@ -1,6 +1,5 @@
 (ns git-statistics.version-jobs
-  (:require git-statistics.git
-            git-statistics.config))
+  (:require git-statistics.git))
 
 (defn count-files [revision] 
   (count (file-seq (java.io.File. (git-statistics.git/get-revision-dir revision)))))
