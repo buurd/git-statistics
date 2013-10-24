@@ -1,11 +1,8 @@
 (ns git-statistics.core
-  )
-
-;; the url to the project from where to checkout the repository
-(def git-clone-url "https://github.com/buurd/git-statistics.git")
-
-;; the local filearea where we can work, eg store repository, store result-files etc.
-(def git-checkout-directory "/working-directory/")
+  (:require 
+    git-statistics.config
+    git-statistics.git 
+    git-statistics.version))
 
 (defn child-file-path [file child]
   "concatenates the file path with the name of the child"
@@ -24,15 +21,19 @@
 
 (defn work-on-revision [revision]
   "run all functions that should be run on a revision"
-  (doseq [job version-jobs] 
-    (println (str "working on " (.toString job)))
-    (job revision)))
+  (doseq [job git-statistics.version-jobs/version-jobs] 
+    (let [job-data (job revision)]
+      (println "do the job " (job revision))
+      (println "expect the job " job-data)
+      (write-data-to-revision-folder revision job-data))))
 
 (defn work-on-all-revisions [] 
   "for each revision in the git repository run the version-jobs"
+  (create-revisions-dir)
   (doseq  [revision list-of-revisions]
-    (switch-revision revision)))
-    ;;(work-on-revision revision)))
+    (create-revision-dir revision)
+    (switch-revision revision)
+    (work-on-revision revision)))
     
 (defn begin
   "The starting point"
