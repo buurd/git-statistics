@@ -1,8 +1,8 @@
 (ns git-statistics.core
   (:require 
     git-statistics.config
-    git-statistics.git 
-    git-statistics.version-jobs))
+    git-statistics.git
+    git-statistics.version))
 
 (defn child-file-path [file child]
   "concatenates the file path with the name of the child"
@@ -21,7 +21,7 @@
 
 (defn work-on-revision [revision]
   "run all functions that should be run on a revision"
-  (doseq [job git-statistics.version-jobs/version-jobs] 
+  (doseq [job git-statistics.version/version-jobs2] 
     (let [job-data (job revision)]
       (git-statistics.git/write-data-to-revision-folder revision job-data))))
 
@@ -41,3 +41,5 @@
       (work-on-all-revisions)
     ;; aggregate data
     )
+
+(begin)
