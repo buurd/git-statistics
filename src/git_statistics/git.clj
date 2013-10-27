@@ -10,7 +10,8 @@
 
 (defn get-repository []  
   "gets the repository"
-  (:repo (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url get-repository-dir)))
+  (println "get-repository")
+  (:repo (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url (get-repository-dir))))
 
 (defn switch-revision [revision]
   "changes the current version at the get-repository-dir"
