@@ -22,16 +22,14 @@
 
 (defn work-on-revision [revision]
   "run all functions that should be run on a revision"
-  (println "work-on-revision")
   (doseq [job git-statistics.version/version-jobs2] 
     (let [job-data (job revision)]
       (git-statistics.git/write-data-to-revision-folder revision job-data))))
 
 (defn work-on-all-revisions [] 
   "for each revision in the git repository run the version-jobs"
-  (println "work-on-all-revisions")
   (git-statistics.git/create-revisions-dir)
-  (doseq  [revision git-statistics.git/get-list-of-revisions]
+  (doseq  [revision (git-statistics.git/get-list-of-revisions)]
     (git-statistics.git/create-revision-dir revision)
     (git-statistics.git/switch-revision revision)
     (work-on-revision revision)))
@@ -41,12 +39,10 @@
   []
     (println "begin")
       (delete-file-recursively git-statistics.config/git-checkout-directory)
-      (git-statistics.git/get-repository)
+      (git-statistics.git/init-repository)
       (work-on-all-revisions)
     ;; aggregate data
     )
-
-(git-statistics.git/get-repository)
 
 
 (begin)

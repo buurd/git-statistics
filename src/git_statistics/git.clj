@@ -8,18 +8,18 @@
   "build the path to where the repository is going to be stored"
   (str git-statistics.config/git-checkout-directory "project/"))
 
-(defn get-repository []  
-  "gets the repository"
+(defn init-repository []  
+  "clones and sets up the repository"
   (println "get-repository")
-  (:repo (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url (get-repository-dir))))
+  (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url (get-repository-dir)))
 
 (defn switch-revision [revision]
   "changes the current version at the get-repository-dir"
-  (clj-jgit.porcelain/git-checkout (get-repository) (.getName revision)))
+  (clj-jgit.porcelain/git-checkout (clj-jgit.porcelain/load-repo (get-repository-dir)) (.getName revision)))
 
 (defn  get-list-of-revisions [] 
   "get the list of revisions in the repository"
-  (clj-jgit.querying/rev-list (get-repository)))
+  (clj-jgit.querying/rev-list (clj-jgit.porcelain/load-repo (get-repository-dir))))
 
 (defn create-revisions-dir []
   "creates a placeholder for the folders that contains the result from the version-jobs"
