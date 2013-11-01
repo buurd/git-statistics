@@ -10,7 +10,6 @@
 
 (defn init-repository []  
   "clones and sets up the repository"
-  (println "get-repository")
   (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url (get-repository-dir)))
 
 (defn switch-revision [revision]
@@ -19,11 +18,15 @@
 
 (defn  get-list-of-revisions [] 
   "get the list of revisions in the repository"
-  (clj-jgit.querying/rev-list (clj-jgit.porcelain/load-repo (get-repository-dir))))
+  (clj-jgit.querying/rev-list (clj-jgit.porcelain/load-repo (get-repository-dir)))) 
+
+(defn get-resivions-dir []
+  "get the path to the revisions dir"
+  (str git-statistics.config/git-checkout-directory "revisions"))
 
 (defn create-revisions-dir []
   "creates a placeholder for the folders that contains the result from the version-jobs"
-  (.mkdir (java.io.File. (str git-statistics.config/git-checkout-directory "revisions"))))
+  (.mkdir (java.io.File. (get-resivions-dir))))
 
 (defn get-revision-dir [revision]
   "get the path to the revision-dir for a specific revision"
@@ -33,6 +36,7 @@
   "creates a folder that contains the work for a specific revision"
   (.mkdir (java.io.File. (get-revision-dir revision))))
 
-(defn write-data-to-revision-folder [revision job-data]
+(defn write-data-to-revision-folder [revision job job-data]
   "save the data for a specific revision and job to a file"
-  (spit (str (get-revision-dir revision) "job") {:date (.getCommitTime revision) :name (.getName revision) :data job-data}))
+  (spit (str (get-revision-dir revision) (:name job)) 
+             {:date (.getCommitTime revision) :name (.getName revision) :data job-data}))
