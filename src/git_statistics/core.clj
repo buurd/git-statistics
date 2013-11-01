@@ -35,15 +35,14 @@
     (work-on-revision revision)))
 
 (defn get-jobdata-for-revision [job file sub-dir]
-  (println (str (.getAbsolutePath file) "/" sub-dir "/" (:name job)))
-  (println (slurp (str (.getAbsolutePath file) "/" sub-dir "/" (:name job)))))
+  (slurp (str (.getAbsolutePath file) "/" sub-dir "/" (:name job))))
 
 (defn collect-aggregates []
   "for all version-jobs, collect the data for each revision and put them in a single structure"
   (doseq [job git-statistics.version/version-jobs]
     (let [file (java.io.File. (git-statistics.git/get-resivions-dir))]
       (let [sub-dir (.list file)]
-        (doall (map #(get-jobdata-for-revision job file %) sub-dir))))))
+        (println (map #(get-jobdata-for-revision job file %) sub-dir))))))
     
 (defn begin
   "The starting point"
