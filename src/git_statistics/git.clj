@@ -36,7 +36,11 @@
   "creates a folder that contains the work for a specific revision"
   (.mkdir (java.io.File. (get-revision-dir revision))))
 
-(defn write-data-to-revision-folder [revision job job-data]
+(defn write-jobdata-to-revision-folder [revision job job-data]
   "save the data for a specific revision and job to a file"
   (spit (str (get-revision-dir revision) (:name job)) 
              {:date (.getCommitTime revision) :name (.getName revision) :data job-data}))
+
+(defn write-collected-jobdata-to-revisions-folder [job job-data]
+  "save the collected data for all revisions into a single file"
+  (spit (str (get-resivions-dir) "/" (:name job)) (prn-str job-data)))

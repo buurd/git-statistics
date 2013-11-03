@@ -24,7 +24,7 @@
   "run all functions that should be run on a revision"
   (doseq [job git-statistics.version/version-jobs] 
     (let [job-data ((:function job) revision job)]
-      (git-statistics.git/write-data-to-revision-folder revision job job-data))))
+      (git-statistics.git/write-jobdata-to-revision-folder revision job job-data))))
 
 (defn work-on-all-revisions [] 
   "for each revision in the git repository run the version-jobs"
@@ -35,6 +35,7 @@
     (work-on-revision revision)))
 
 (defn get-jobdata-for-revision [job file sub-dir]
+  "reads the data saved for job on a revision"
   (slurp (str (.getAbsolutePath file) "/" sub-dir "/" (:name job))))
 
 (defn collect-aggregates []
@@ -42,7 +43,8 @@
   (doseq [job git-statistics.version/version-jobs]
     (let [file (java.io.File. (git-statistics.git/get-resivions-dir))]
       (let [sub-dir (.list file)]
-        (println (map #(get-jobdata-for-revision job file %) sub-dir))))))
+        (git-statistics.git/write-collected-jobdata-to-revisions-folder 
+          job (map #(get-jobdata-for-revision job file %) sub-dir))))))
     
 (defn begin
   "The starting point"
