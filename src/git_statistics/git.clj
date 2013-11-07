@@ -10,15 +10,17 @@
 
 (defn init-repository []  
   "clones and sets up the repository"
-  (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url (get-repository-dir)))
+  (def repository (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url (get-repository-dir))))
+
 
 (defn switch-revision [revision]
   "changes the current version at the get-repository-dir"
-  (clj-jgit.porcelain/git-checkout (clj-jgit.porcelain/load-repo (get-repository-dir)) (.getName revision)))
+  (println (.getName revision))
+  (clj-jgit.porcelain/git-checkout (:repo repository) (.getName revision)))
 
 (defn  get-list-of-revisions [] 
   "get the list of revisions in the repository"
-  (clj-jgit.querying/rev-list (clj-jgit.porcelain/load-repo (get-repository-dir)))) 
+  (clj-jgit.querying/rev-list (:repo repository))) 
 
 (defn get-resivions-dir []
   "get the path to the revisions dir"

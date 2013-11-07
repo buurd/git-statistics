@@ -49,7 +49,6 @@
 (defn begin
   "The starting point"
   []
-    (println "begin")
       (delete-file-recursively git-statistics.config/git-checkout-directory)
       (git-statistics.git/init-repository)
       (work-on-all-revisions)
