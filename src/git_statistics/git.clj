@@ -46,3 +46,6 @@
 (defn write-collected-jobdata-to-revisions-folder [job job-data]
   "save the collected data for all revisions into a single file"
   (spit (str (get-resivions-dir) "/" (:name job)) (prn-str job-data)))
+
+(defn write-jobdata-to-aggregate-folder[job job-data]
+  (spit (str git-statistics.config/git-checkout-directory "/" (:name job)) (prn-str job-data)))

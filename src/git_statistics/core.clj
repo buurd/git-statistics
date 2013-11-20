@@ -45,6 +45,13 @@
       (let [sub-dir (.list file)]
         (git-statistics.git/write-collected-jobdata-to-revisions-folder 
           job (map #(get-jobdata-for-revision job file %) sub-dir))))))
+
+(defn aggregate-data [] 
+  (doseq [job git-statistics.aggregate/aggregate-jobs]
+    (let [job-data ((:function job) "xxx")]
+       (git-statistics.git/write-jobdata-to-aggregate-folder job job-data))))
+
+(apply (:function (first git-statistics.aggregate/aggregate-jobs)))
     
 (defn begin
   "The starting point"
@@ -52,6 +59,7 @@
       (delete-file-recursively git-statistics.config/git-checkout-directory)
       (git-statistics.git/init-repository)
       (work-on-all-revisions)
-      (collect-aggregates))
+      (collect-aggregates)
+      (aggregate-data))
 
 (begin)

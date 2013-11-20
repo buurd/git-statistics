@@ -2,7 +2,6 @@
   (:require git-statistics.git))
 
 (defn count-files [revision job] 
-  (println (count (file-seq (java.io.File. git-statistics.config/git-checkout-directory))))
   (count (file-seq (java.io.File. git-statistics.config/git-checkout-directory))))
 
 ;; a list of functions to run for each version
