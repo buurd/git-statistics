@@ -51,7 +51,6 @@
     (let [job-data ((:function job) "xxx")]
        (git-statistics.git/write-jobdata-to-aggregate-folder job job-data))))
 
-(apply (:function (first git-statistics.aggregate/aggregate-jobs)))
     
 (defn begin
   "The starting point"
@@ -61,5 +60,3 @@
       (work-on-all-revisions)
       (collect-aggregates)
       (aggregate-data))
-
-(begin)
