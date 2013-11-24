@@ -36,7 +36,8 @@
 
 (defn get-jobdata-for-revision [job file sub-dir]
   "reads the data saved for job on a revision"
-  (slurp (str (.getAbsolutePath file) "/" sub-dir "/" (:name job))))
+  (if (.isDirectory (java.io.File. file sub-dir))
+        (slurp (str (.getAbsolutePath file) "/" sub-dir "/" (:name job)))))
 
 (defn collect-aggregates []
   "for all version-jobs, collect the data for each revision and put them in a single structure"
@@ -54,9 +55,11 @@
     
 (defn begin
   "The starting point"
-  []
+  [] 
       (delete-file-recursively git-statistics.config/git-checkout-directory)
       (git-statistics.git/init-repository)
       (work-on-all-revisions)
       (collect-aggregates)
       (aggregate-data))
+
+(begin)

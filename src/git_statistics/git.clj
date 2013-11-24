@@ -15,7 +15,6 @@
 
 (defn switch-revision [revision]
   "changes the current version at the get-repository-dir"
-  (println (.getName revision))
   (clj-jgit.porcelain/git-checkout (:repo repository) (.getName revision)))
 
 (defn  get-list-of-revisions [] 
