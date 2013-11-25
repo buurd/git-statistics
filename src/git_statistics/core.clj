@@ -61,5 +61,3 @@
       (work-on-all-revisions)
       (collect-aggregates)
       (aggregate-data))
-
-(begin)

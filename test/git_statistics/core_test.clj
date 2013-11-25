@@ -2,6 +2,5 @@
   (:use clojure.test
         git-statistics.core))
 
-(deftest a-test
-  (testing "jaja"
-    (is (= 1 1))))
+(deftest dummy
+  (is (= 2 2)))
