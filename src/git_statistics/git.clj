@@ -21,7 +21,7 @@
   "get the list of revisions in the repository"
   (clj-jgit.querying/rev-list (:repo repository))) 
 
-(defn get-resivions-dir []
+(defn get-revisions-dir []
   "get the path to the revisions dir"
   (str git-statistics.config/git-checkout-directory "revisions"))
 
