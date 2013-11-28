@@ -8,6 +8,5 @@
 (deftest get-revisions-dir-test
   (is (= "/working-directory/revisions" (git-statistics.git/get-revisions-dir))))
 
-(run-tests)
 
   

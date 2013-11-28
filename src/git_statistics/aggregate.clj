@@ -17,7 +17,7 @@
 
 (defn count-files-by-month [x] 
   "From the result of the count-file-job, aggregate the result by month"
- (let [list (read-file (str (git-statistics.git/get-resivions-dir) "/count-files"))]
+ (let [list (read-file (str (git-statistics.git/get-revisions-dir) "/count-files"))]
    (map #(average-count % )(partition-by #(:year-month %) (sort-by :year-month (map seconds-to-month list))))))
 
 ;; a list of funtions to aggretate the results from version-jobs

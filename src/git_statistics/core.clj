@@ -42,7 +42,7 @@
 (defn collect-aggregates []
   "for all version-jobs, collect the data for each revision and put them in a single structure"
   (doseq [job git-statistics.version/version-jobs]
-    (let [file (java.io.File. (git-statistics.git/get-resivions-dir))]
+    (let [file (java.io.File. (git-statistics.git/get-revisions-dir))]
       (let [sub-dir (.list file)]
         (git-statistics.git/write-collected-jobdata-to-revisions-folder 
           job (map #(get-jobdata-for-revision job file %) sub-dir))))))

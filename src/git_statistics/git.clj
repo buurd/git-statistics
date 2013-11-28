@@ -27,7 +27,7 @@
 
 (defn create-revisions-dir []
   "creates a placeholder for the folders that contains the result from the version-jobs"
-  (.mkdir (java.io.File. (get-resivions-dir))))
+  (.mkdir (java.io.File. (get-revisions-dir))))
 
 (defn get-revision-dir [revision]
   "get the path to the revision-dir for a specific revision"
@@ -44,7 +44,7 @@
 
 (defn write-collected-jobdata-to-revisions-folder [job job-data]
   "save the collected data for all revisions into a single file"
-  (spit (str (get-resivions-dir) "/" (:name job)) (prn-str job-data)))
+  (spit (str (get-revisions-dir) "/" (:name job)) (prn-str job-data)))
 
 (defn write-jobdata-to-aggregate-folder[job job-data]
   (spit (str git-statistics.config/git-checkout-directory "/" (:name job)) (prn-str job-data)))
