@@ -12,10 +12,12 @@
   "clones and sets up the repository"
   (def repository (clj-jgit.porcelain/git-clone-full git-statistics.config/git-clone-url (get-repository-dir))))
 
+(defn get-revision-name [revision]
+  (.getName revision))
 
 (defn switch-revision [revision]
   "changes the current version at the get-repository-dir"
-  (clj-jgit.porcelain/git-checkout (:repo repository) (.getName revision)))
+  (clj-jgit.porcelain/git-checkout (:repo repository) (get-revision-name revision)))
 
 (defn  get-list-of-revisions [] 
   "get the list of revisions in the repository"
@@ -31,7 +33,7 @@
 
 (defn get-revision-dir [revision]
   "get the path to the revision-dir for a specific revision"
-  (str git-statistics.config/git-checkout-directory "revisions/" (.getName revision) "/"))
+  (str git-statistics.config/git-checkout-directory "revisions/" (get-revision-name revision) "/"))
 
 (defn create-revision-dir [revision]
   "creates a folder that contains the work for a specific revision"
@@ -40,7 +42,7 @@
 (defn write-jobdata-to-revision-folder [revision job job-data]
   "save the data for a specific revision and job to a file"
   (spit (str (get-revision-dir revision) (:name job)) 
-             {:date (.getCommitTime revision) :name (.getName revision) :data job-data}))
+             {:date (.getCommitTime revision) :name (get-revision-name revision) :data job-data}))
 
 (defn write-collected-jobdata-to-revisions-folder [job job-data]
   "save the collected data for all revisions into a single file"
