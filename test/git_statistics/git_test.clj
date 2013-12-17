@@ -23,8 +23,17 @@
                   (is (= (git-statistics.git/get-revision-name "test") "revisionname"))
                   (is (= (git-statistics.git/repository {:repo "a repository"} {:repository "a repository"})))
                   (is (= (clj-jgit.porcelain/git-checkout "test1" "test2") {:param1 "test1", :param2 "test2"}))
-                  (is (= (:param1 value) nil))
+                  (is (= (:param1 value) nil)) ;; TODO: Figure out why nil?
                   (is (= (:param2 value) "revisionname"))
                   )))
 
-(run-tests)
+(deftest get-list-of-revisions-test
+  (with-redefs [clj-jgit.querying/rev-list (constantly ["item1"])]
+    (is (= (git-statistics.git/get-list-of-revisions) ["item1"]))))
+
+(deftest get-revisions-dir-test
+    (is (= (git-statistics.git/get-revisions-dir) "/working-directory/revisions")))
+
+(deftest get-revision-dir-test
+  (with-redefs [git-statistics.git/get-revision-name (fn [x] x)]
+    (is (= (git-statistics.git/get-revision-dir "subdir") "/working-directory/revisions/subdir/"))))
